@@ -65,11 +65,22 @@ namespace WebApplicationBlogPost.Controllers
                postViewModel.Post.FeathureImagePath = await UploadFileToFolder(postViewModel.FeatureImage);
                await _context.Posts.AddAsync(postViewModel.Post);
                await _context.SaveChangesAsync();
-                RedirectToAction("Index");
+             return  RedirectToAction("Index");
 
             }
+            // this Code for when Dropdown Refresh or if there is error in the form but dropdown not refreshing
+            postViewModel.Categories = _context.Categories.Select(c =>
+            new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }
+            ).ToList();
+
             return View(postViewModel);
 
+
+           
         }
 
         private async Task<String> UploadFileToFolder(IFormFile file)
