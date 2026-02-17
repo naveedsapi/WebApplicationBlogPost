@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +30,9 @@ namespace WebApplicationBlogPost.Models
         public DateTime PublishedDate { get; set; } = DateTime.Now;
 
         [ForeignKey("Category")]
+
+        //this code only for display of category name in the post index page and create page
+        [DisplayName("Category")]
         public int CategoryId { get; set; }
         [ValidateNever]
         public Category Category { get; set; }
