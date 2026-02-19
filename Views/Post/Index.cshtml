@@ -38,7 +38,7 @@
                     <span class="badge bg-secondary">@post.Category?.Name</span>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a class="btn btn-primary btn-sm">Rede More</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Post" asp-action="Detial" asp-route-id ="@post.Id" >Rede More</a>
                     <div class="text-end">
                         <div class="text-muted">By @post.Author</div>
                     </div>
