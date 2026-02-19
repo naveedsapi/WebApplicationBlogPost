@@ -37,6 +37,7 @@ namespace WebApplicationBlogPost.Models
         [ValidateNever]
         public Category Category { get; set; }
 
+        
         public ICollection<Comment> Comments { get; set; }
     }
 }
