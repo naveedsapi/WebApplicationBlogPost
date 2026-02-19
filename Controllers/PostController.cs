@@ -33,6 +33,22 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Detial(int id) 
+        {
+            // This code for To Display Comments Category with BlogPost
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var post=_context.Posts.Include(p=>p.Category).Include(p=>p.Comments).FirstOrDefault(p=>p.Id==id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return View(post);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             //Despling Category Dropdown
