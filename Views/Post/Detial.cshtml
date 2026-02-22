@@ -37,7 +37,7 @@
    <hr />
     @if (Model.Comments.Any())
     {
-        <div>
+        <div id="CommentSection">
             @foreach(var comment in Model.Comments)
             {
                 <div class="card mb-3 shadow-sm">
@@ -54,4 +54,61 @@
     {
    <p class="text-muted"> Not Yet Comments Be The First To Comment </p>
     }
+
+    <h4>Add Comment</h4>
+    <form id="CommentForm">
+        <div class="form-group">
+            <label for="Username">Username</label>
+            <input for="Username" id="Username" name="Username" required class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Content">Content</label>
+           <textarea for="Content" id="Content" name="Content" required class="form-control" rows="3" ></textarea>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary mt-2 p-2">Submit Comment</button>
+        </div>
+    </form>
+  
+
 </div>
+
+    @section Scripts{
+        <script>
+            $(document).ready(function(){
+                $("#CommentForm").on('submit',function(event){
+                     event.preventDefault();
+                  var userName= $("#Username").val();
+                  var content= $("#Content").val();
+                  var postId= @Model.Id;
+                  
+               $.ajax({
+                 //https:localhost:7289/Post/AddComment
+                 url: '@Url.Action("AddComment","Post")',
+                 type: 'POST',
+                 contentType: 'application/json',
+                 data:JSON.stringify({
+                      UserName: userName,
+                      Content: content,
+                     PostId: postId
+                 }),
+                 success:function(response){
+                  $('#CommentForm')[0].reset();
+                  $('#CommentSection').append(
+                         `
+                       <div class="card mb-3 shadow-sm">
+                      <div class="card-body">
+                         <h5 class="card-title">${response.username}</h5>
+                         <p class="card-text text-muted">${response.commentDate}</p>
+                         <p class="card-text">${response.content }</p>
+                     </div>
+                    </div>
+                         `
+                     )
+                 }
+                })
+              });
+
+           });
+        </script>
+    }
