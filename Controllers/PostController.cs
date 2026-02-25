@@ -131,6 +131,44 @@ namespace WebApplicationBlogPost.Controllers
             return View(editPostViewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPostViewModel editPostViewModel)
+        {
+            //this code for Update Blog Post and Update Image in Edit Form
+            if (!ModelState.IsValid)
+            {
+                return View(editPostViewModel);
+            }
+            var postFromDb = await _context.Posts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == editPostViewModel.Post.Id);
+            if (postFromDb == null)
+            {
+                return NotFound();
+            }
+            if( editPostViewModel.FeatureImage != null)
+            {
+                var inputfileExtension = Path.GetExtension(editPostViewModel.FeatureImage.FileName).ToLower();
+                bool isAllowed = _allowedExtension.Contains(inputfileExtension);
+                if (isAllowed)
+                {
+                    ModelState.AddModelError("", "Invalid Image format. Allowed format are .jpeg, .png, .jpg");
+                    return View(editPostViewModel);
+                }
+                var existingFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "Images", Path.GetFileName(postFromDb.FeathureImagePath));
+                if (System.IO.File.Exists(existingFilePath))
+                {
+                    System.IO.File.Delete(existingFilePath);
+                }
+                editPostViewModel.Post.FeathureImagePath = await UploadFileToFolder(editPostViewModel.FeatureImage);
+            }
+            else
+            {
+                editPostViewModel.Post.FeathureImagePath = postFromDb.FeathureImagePath;
+            }
+             _context.Posts.Update(editPostViewModel.Post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
         public JsonResult AddComment([FromBody]Comment comment)
         {
             comment.CommentDate = DateTime.Now;
