@@ -100,6 +100,37 @@ namespace WebApplicationBlogPost.Controllers
            
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            //This code for To Display Data in Edit Form and Display Category Dropdown
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var PostFromDb = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            if(PostFromDb == null)
+            {
+                return NotFound();
+            }
+
+            EditPostViewModel editPostViewModel = new EditPostViewModel
+            {
+                Post = PostFromDb,
+                Categories = _context.Categories.Select(c =>
+                new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }
+                   ).ToList()
+            };
+            
+            return View(editPostViewModel);
+        }
+
         public JsonResult AddComment([FromBody]Comment comment)
         {
             comment.CommentDate = DateTime.Now;
