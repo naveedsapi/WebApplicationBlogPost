@@ -12,6 +12,8 @@ namespace WebApplicationBlogPost.Models.ViewModels
 
         [ValidateNever]
         public IEnumerable<SelectListItem> Categories { get; set; }
+
+        [ValidateNever] //this property is used to enter model data without validation
         public IFormFile FeatureImage { get; set; }
     }
 }
