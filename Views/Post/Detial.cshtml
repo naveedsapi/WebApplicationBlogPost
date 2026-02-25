@@ -21,8 +21,8 @@
 </style>
 
 <div class="text-end">
-    <a class="btn btn-primary my-3 ">Eidt Post</a>
-    <a class="btn btn-danger mx-3 my-3 ">Delete Post</a>
+    <a class="btn btn-primary my-3" asp-controller = "Post" asp-action = "Edit" asp-route-id ="@Model.Id" > Eidt Post </a>
+    <a class="btn btn-danger mx-3 my-3 " >Delete Post</a>
 </div>
 
 <div class="content-wraper">
