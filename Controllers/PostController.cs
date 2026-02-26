@@ -171,7 +171,7 @@ namespace WebApplicationBlogPost.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
-        {   //this code for to ready Blog Post for Deletion
+        {   //1 this code for to ready Blog Post for Deletion
             var postFromDb = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
             if(postFromDb == null)
             {
@@ -183,7 +183,7 @@ namespace WebApplicationBlogPost.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            //this code for to Delete Blog Post completly with Confirmation
+            //2 this code for to Delete Blog Post completly with Confirmation
             var postFromDb = await _context.Posts.FirstOrDefaultAsync(P => P.Id == id);
             if (postFromDb == null)
             {
