@@ -21,10 +21,12 @@
         <div class="form-group">
             <h2>@ViewData["Title"]</h2>
         </div>
+        @if(User.IsInRole("Admin")){
         <div class="form-group">
             <a asp-action="Create" asp-controller="Category" class="btn btn-secondary mb-2">Create Category</a>
 
         </div>
+            }
         <div class="form-group">
             <table class="table table-secondary">
                 <thead class="thead-light">
