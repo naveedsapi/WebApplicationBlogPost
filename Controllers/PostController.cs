@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationBlogPost.Data;
@@ -50,6 +51,7 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpGet]
+        [Authorize (Roles ="Admin")]
         public IActionResult Create()
         {
             //Despling Category Dropdown
@@ -65,6 +67,7 @@ namespace WebApplicationBlogPost.Controllers
             return View(postViewModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(PostViewModel postViewModel)
         {
             // Insertion Blog Post 
@@ -101,6 +104,7 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -132,6 +136,7 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditPostViewModel editPostViewModel)
         {
             //this code for Update Blog Post and Update Image in Edit Form
@@ -170,6 +175,7 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {   //1 this code for to ready Blog Post for Deletion
             var postFromDb = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
@@ -181,6 +187,7 @@ namespace WebApplicationBlogPost.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             //2 this code for to Delete Blog Post completly with Confirmation
@@ -203,6 +210,7 @@ namespace WebApplicationBlogPost.Controllers
            
         }
 
+        [Authorize]
         public JsonResult AddComment([FromBody]Comment comment)
         {
             comment.CommentDate = DateTime.Now;
