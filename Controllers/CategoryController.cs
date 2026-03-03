@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationBlogPost.Data;
 using WebApplicationBlogPost.Models;
@@ -27,12 +28,15 @@ namespace WebApplicationBlogPost.Controllers
         }
 
 
-
+       
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
+        
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
         { // This Code for Adding New Category To Db
             if (ModelState.IsValid)
@@ -45,7 +49,9 @@ namespace WebApplicationBlogPost.Controllers
             return View(categoryViewModel);
         }
 
+       
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int CategoryId)
         {
             //this Code for to Ready form for Updating Category
@@ -62,7 +68,9 @@ namespace WebApplicationBlogPost.Controllers
             
             return View(editCategoryViewModel);
         }
+       
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditCategoryViewModel  editCategoryViewModel)
         {
             //this Code for Updating Category
@@ -82,6 +90,7 @@ namespace WebApplicationBlogPost.Controllers
            
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             // This Code to Ready Category For Deletion
@@ -96,8 +105,10 @@ namespace WebApplicationBlogPost.Controllers
             }
             return View(categoryFD);
         }
+        
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             //This Code To Delet Category Completly
