@@ -19,11 +19,13 @@
         margin-bottom:20px;
     }
 </style>
-
+@if (User.IsInRole("Admin"))
+{
 <div class="text-end">
     <a class="btn btn-primary my-3" asp-controller = "Post" asp-action = "Edit" asp-route-id ="@Model.Id" > Eidt Post </a>
     <a class="btn btn-danger mx-3 my-3" asp-controller="Post" asp-action="Delete" asp-route-id ="@Model.Id" >Delete Post</a>
 </div>
+}
 
 <div class="content-wraper">
     <h1>@Model.Title</h1>
@@ -56,6 +58,8 @@
     }
 
     <h4>Add Comment</h4>
+    @if (User.Identity.IsAuthenticated)
+    {  
     <form id="CommentForm">
         <div class="form-group">
             <label for="Username">Username</label>
@@ -69,7 +73,7 @@
           <button type="submit" class="btn btn-primary mt-2 p-2">Submit Comment</button>
         </div>
     </form>
-  
+    }
 
 </div>
 
