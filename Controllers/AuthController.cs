@@ -95,5 +95,11 @@ namespace WebApplicationBlogPost.Controllers
             await  _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Post");
         }
+        // this code for AccessDenied for Admin
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
